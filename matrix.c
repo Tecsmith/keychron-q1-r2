@@ -1,4 +1,4 @@
-/* Copyright 2022 Keychron (https://www.keychron.com)
+/* Copyright 2021 @ Keychron (https://www.keychron.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,10 +27,10 @@
 #define SHCP B1
 
 #ifdef MATRIX_ROW_PINS
-    static pin_t row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
+static pin_t row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
 #endif  // MATRIX_ROW_PINS
 #ifdef MATRIX_COL_PINS
-    static pin_t col_pins[MATRIX_COLS] = MATRIX_COL_PINS;
+static pin_t col_pins[MATRIX_COLS] = MATRIX_COL_PINS;
 #endif  // MATRIX_COL_PINS
 
 /* matrix state(1:on, 0:off) */
