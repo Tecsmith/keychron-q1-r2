@@ -18,8 +18,18 @@
 
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x3434
+#define PRODUCT_ID      0x0107
+#define DEVICE_VER      0x0203
 #define MANUFACTURER    Keychron
 #define PRODUCT         Keychron Q1
+
+/* key matrix size */
+#define MATRIX_ROWS 6
+#define MATRIX_COLS 16
+
+/* key matrix pins */
+#define MATRIX_ROW_PINS { B5, B4, B3, A15, A14, A13 }
+#define MATRIX_COL_PINS { C14, C15, A0, A1, A2, A3, A4, A5, NO_PIN, NO_PIN, NO_PIN, NO_PIN, NO_PIN, NO_PIN, NO_PIN, NO_PIN }
 
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION ROW2COL
@@ -30,14 +40,48 @@
 /* Disable DIP switch in matrix data */
 #define MATRIX_MASKED
 
+/* DIP switch */
+#define DIP_SWITCH_MATRIX_GRID  { {5,4} }
+
+/* Encoder used pins */
+#define ENCODERS_PAD_A { A10 }
+#define ENCODERS_PAD_B { A8 }
+
+/* Specifies the number of pulses the encoder registers between each detent */
+#define ENCODER_RESOLUTION 4
+
 /* NKRO */
 #define FORCE_NKRO
+
+/* Set USB polling rate as 1000Hz */
+#define USB_POLLING_INTERVAL_MS 1
+
+/* RGB Matrix Driver Configuration */
+#define DRIVER_COUNT 2
+#define DRIVER_ADDR_1 0b1110111
+#define DRIVER_ADDR_2 0b1110100
+
+/* RGB Matrix Configuration */
+#define DRIVER_1_LED_TOTAL 45
+#define DRIVER_2_LED_TOTAL 37
+#define DRIVER_LED_TOTAL (DRIVER_1_LED_TOTAL + DRIVER_2_LED_TOTAL)
+
+/* Scan phase of led driver set as MSKPHASE_9CHANNEL(defined as 0x03 in CKLED2001.h) */
+#define PHASE_CHANNEL MSKPHASE_9CHANNEL
+
+/* Set the maxium brightness as 192 in order to limit the current to 450mA */
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS (24 * 8)  // 8 = RGB_MATRIX_VAL_STEP
+
+/* We have 2KB EEPROM size on STM32L432 */
+#define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 2047
+
+/* Enable caps-lock LED */
+#define CAPS_LOCK_LED_INDEX 45
 
 /* Disable RGB lighting when PC is in suspend */
 #define RGB_DISABLE_WHEN_USB_SUSPENDED
 
-/* Set USB polling rate as 1000Hz */
-#define USB_POLLING_INTERVAL_MS 1
+// #define RGB_MATRIX_KEYPRESSES
 
 // RGB Matrix Animation modes. Explicitly enabled
 // For full list of effects, see:
@@ -71,31 +115,32 @@
 // #define ENABLE_RGB_MATRIX_PIXEL_RAIN
 // #define ENABLE_RGB_MATRIX_PIXEL_FLOW
 // #define ENABLE_RGB_MATRIX_PIXEL_FRACTAL
-// enabled only if RGB_MATRIX_FRAMEBUFFER_EFFECTS is defined
-#define ENABLE_RGB_MATRIX_TYPING_HEATMAP
-#define ENABLE_RGB_MATRIX_DIGITAL_RAIN
-// enabled only of RGB_MATRIX_KEYPRESSES or RGB_MATRIX_KEYRELEASES is defined
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
-#define ENABLE_RGB_MATRIX_SPLASH
-#define ENABLE_RGB_MATRIX_MULTISPLASH
-#define ENABLE_RGB_MATRIX_SOLID_SPLASH
-#define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH
+#if defined(RGB_MATRIX_FRAMEBUFFER_EFFECTS)
+    #define ENABLE_RGB_MATRIX_TYPING_HEATMAP
+    #define ENABLE_RGB_MATRIX_DIGITAL_RAIN
+#endif
+#if defined(RGB_MATRIX_KEYPRESSESS) || defined(RGB_MATRIX_KEYRELEASES)
+    #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
+    #define ENABLE_RGB_MATRIX_SOLID_REACTIVE
+    #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
+    #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
+    #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
+    #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
+    #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
+    #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
+    #define ENABLE_RGB_MATRIX_SPLASH
+    #define ENABLE_RGB_MATRIX_MULTISPLASH
+    #define ENABLE_RGB_MATRIX_SOLID_SPLASH
+    #define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH
+#endif
 
 /* Allow VIA to edit lighting */
 #ifdef VIA_ENABLE
-#define VIA_QMK_RGBLIGHT_ENABLE
+    #define VIA_QMK_RGBLIGHT_ENABLE
 #endif
 
 /* Just for testing RGB matrix
  * Preventing inadvertent entry into dfu mode during power on
  */
-// #define RGB_MATRIX_KEYPRESSES
-#define BOOTMAGIC_LITE_ROW 5
-#define BOOTMAGIC_LITE_COLUMN 5
+// #define BOOTMAGIC_LITE_ROW 5
+// #define BOOTMAGIC_LITE_COLUMN 5
