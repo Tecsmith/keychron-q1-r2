@@ -28,11 +28,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL,  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  MO(MAC_FN), KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [MAC_FN] = LAYOUT_all(
-        _______,  KC_BRID,  KC_BRIU,  KC_MCTL,  KC_LPAD,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    KC_MSTP,            RGB_VAD, RGB_TOG, RGB_VAI,
+        _______,  KC_BRID,  KC_BRIU,  KC_MCTL,  KC_LPAD,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    _______,            RGB_VAD, RGB_TOG, RGB_VAI,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            KC_INS,
-        RGB_TOG,  RGB_MOD,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            KC_HOME,
+        RGB_TOG,  RGB_MOD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            KC_HOME,
         _______,  RGB_RMOD, _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_MLCK,  RGB_HUI,  RGB_SAI,              _______,            KC_END,
-        _______,            _______,  _______,  _______,  KC_VERS,  RESET,    _______,  _______,  _______,  RGB_HUD,  RGB_SAD,              _______,  RGB_VAI,
+        _______,            _______,  _______,  _______,  KC_VERS,  RESET,    NK_TOGG,  _______,  _______,  RGB_HUD,  RGB_SAD,              _______,  RGB_VAI,
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    RGB_SPD,  RGB_VAD,  RGB_SPI),
 
     [WIN_BASE] = LAYOUT_all(
@@ -44,55 +44,63 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL,  KC_LGUI,  KC_LALT,                                KC_SPC,                                 KC_RALT,  KC_MENU,  MO(WIN_FN), KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [WIN_FN] = LAYOUT_all(
-        _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FLXP,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    KC_MSTP,            RGB_VAD, RGB_TOG, RGB_VAI,
+        _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FLXP,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    _______,            RGB_VAD, RGB_TOG, RGB_VAI,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            KC_INS,
-        RGB_TOG,  RGB_MOD,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            KC_HOME,
+        RGB_TOG,  RGB_MOD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            KC_HOME,
         _______,  RGB_RMOD, _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_WLCK,  RGB_HUI,  RGB_SAI,              _______,            KC_END,
-        _______,            _______,  _______,  _______,  KC_VERS,  RESET,    _______,  _______,  _______,  RGB_HUD,  RGB_SAD,              _______,  RGB_VAI,
+        _______,            _______,  _______,  _______,  KC_VERS,  RESET,    NK_TOGG,  _______,  _______,  RGB_HUD,  RGB_SAD,              _______,  RGB_VAI,
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    RGB_SPD,  RGB_VAD,  RGB_SPI),
+
+    // [FN_3] = LAYOUT_all(
+    //     _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            _______, _______, _______,
+    //     _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            _______,
+    //     _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            _______,
+    //     _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,              _______,            _______,
+    //     _______,            _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,              _______,  _______,
+    //     _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    _______,  _______,  _______),
 };
 
 // ---------- Rotary Encoder ----------
 
 #if defined(VIA_ENABLE) && defined(ENCODER_ENABLE)
 
-#define ENCODERS 1
-static uint8_t  encoder_state[ENCODERS] = {0};
-static keypos_t encoder_cw[ENCODERS]    = {{ 8, 5 }};
-static keypos_t encoder_ccw[ENCODERS]   = {{ 7, 5 }};
+    #define ENCODERS 1
+    static uint8_t  encoder_state[ENCODERS] = {0};
+    static keypos_t encoder_cw[ENCODERS]    = {{ 8, 5 }};
+    static keypos_t encoder_ccw[ENCODERS]   = {{ 7, 5 }};
 
-void encoder_action_unregister(void) {
-    for (int index = 0; index < ENCODERS; ++index) {
-        if (encoder_state[index]) {
-            keyevent_t encoder_event = (keyevent_t) {
-                .key = encoder_state[index] >> 1 ? encoder_cw[index] : encoder_ccw[index],
-                .pressed = false,
-                .time = (timer_read() | 1)
-            };
-            encoder_state[index] = 0;
-            action_exec(encoder_event);
+    void encoder_action_unregister(void) {
+        for (int index = 0; index < ENCODERS; ++index) {
+            if (encoder_state[index]) {
+                keyevent_t encoder_event = (keyevent_t) {
+                    .key = encoder_state[index] >> 1 ? encoder_cw[index] : encoder_ccw[index],
+                    .pressed = false,
+                    .time = (timer_read() | 1)
+                };
+                encoder_state[index] = 0;
+                action_exec(encoder_event);
+            }
         }
     }
-}
 
-void encoder_action_register(uint8_t index, bool clockwise) {
-    keyevent_t encoder_event = (keyevent_t) {
-        .key = clockwise ? encoder_cw[index] : encoder_ccw[index],
-        .pressed = true,
-        .time = (timer_read() | 1)
+    void encoder_action_register(uint8_t index, bool clockwise) {
+        keyevent_t encoder_event = (keyevent_t) {
+            .key = clockwise ? encoder_cw[index] : encoder_ccw[index],
+            .pressed = true,
+            .time = (timer_read() | 1)
+        };
+        encoder_state[index] = (clockwise ^ 1) | (clockwise << 1);
+        action_exec(encoder_event);
+    }
+
+    void matrix_scan_user(void) {
+        encoder_action_unregister();
+    }
+
+    bool encoder_update_user(uint8_t index, bool clockwise) {
+        encoder_action_register(index, clockwise);
+        return false;
     };
-    encoder_state[index] = (clockwise ^ 1) | (clockwise << 1);
-    action_exec(encoder_event);
-}
-
-void matrix_scan_user(void) {
-    encoder_action_unregister();
-}
-
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    encoder_action_register(index, clockwise);
-    return false;
-};
 
 #endif  // ENCODER_ENABLE
 
