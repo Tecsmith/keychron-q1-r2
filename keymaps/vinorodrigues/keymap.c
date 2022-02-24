@@ -15,23 +15,8 @@
  */
 
 #include QMK_KEYBOARD_H
-
-enum layers{
-    MAC_BASE,
-    MAC_FN,
-    WIN_BASE,
-    WIN_FN
-};
-
-enum custom_keycodes {
-    KC_MISSION_CONTROL = USER00,
-    KC_LAUNCHPAD
-};
-
-#define KC_MCTL KC_MISSION_CONTROL
-#define KC_LPAD KC_LAUNCHPAD
-#define KC_TASK LGUI(KC_TAB)
-#define KC_FLXP LGUI(KC_E)
+#include <version.h>
+#include "keymap.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC_BASE] = LAYOUT_all(
@@ -46,8 +31,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  KC_BRID,  KC_BRIU,  KC_MCTL,  KC_LPAD,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    KC_MSTP,            RGB_VAD, RGB_TOG, RGB_VAI,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            KC_INS,
         RGB_TOG,  RGB_MOD,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            KC_HOME,
-        _______,  RGB_RMOD, _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  RGB_HUI,  RGB_SAI,              _______,            KC_END,
-        _______,            _______,  _______,  _______,  _______,  RESET,    _______,  _______,  _______,  RGB_HUD,  RGB_SAD,              _______,  RGB_VAI,
+        _______,  RGB_RMOD, _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_MLCK,  RGB_HUI,  RGB_SAI,              _______,            KC_END,
+        _______,            _______,  _______,  _______,  KC_VERS,  RESET,    _______,  _______,  _______,  RGB_HUD,  RGB_SAD,              _______,  RGB_VAI,
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    RGB_SPD,  RGB_VAD,  RGB_SPI),
 
     [WIN_BASE] = LAYOUT_all(
@@ -62,17 +47,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FLXP,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    KC_MSTP,            RGB_VAD, RGB_TOG, RGB_VAI,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            KC_INS,
         RGB_TOG,  RGB_MOD,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,  _______,  _______,    _______,            KC_HOME,
-        _______,  RGB_RMOD, _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  RGB_HUI,  RGB_SAI,              _______,            KC_END,
-        _______,            _______,  _______,  _______,  _______,  RESET,    _______,  _______,  _______,  RGB_HUD,  RGB_SAD,              _______,  RGB_VAI,
+        _______,  RGB_RMOD, _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_WLCK,  RGB_HUI,  RGB_SAI,              _______,            KC_END,
+        _______,            _______,  _______,  _______,  KC_VERS,  RESET,    _______,  _______,  _______,  RGB_HUD,  RGB_SAD,              _______,  RGB_VAI,
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    RGB_SPD,  RGB_VAD,  RGB_SPI),
 };
+
+// ---------- Rotary Encoder ----------
 
 #if defined(VIA_ENABLE) && defined(ENCODER_ENABLE)
 
 #define ENCODERS 1
 static uint8_t  encoder_state[ENCODERS] = {0};
 static keypos_t encoder_cw[ENCODERS]    = {{ 8, 5 }};
-static keypos_t encoder_ccw[ENCODERS]  = {{ 7, 5 }};
+static keypos_t encoder_ccw[ENCODERS]   = {{ 7, 5 }};
 
 void encoder_action_unregister(void) {
     for (int index = 0; index < ENCODERS; ++index) {
@@ -107,20 +94,34 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return false;
 };
 
-#endif
+#endif  // ENCODER_ENABLE
+
+// ---------- Process Keypresses ----------
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        // MacOS keys
         case KC_MISSION_CONTROL:
             if (record->event.pressed) {
-                host_consumer_send(0x29F);
+                host_consumer_send(_AC_SHOW_ALL_WINDOWS);
             }
             return false;  // Skip all further processing of this key
+        
         case KC_LAUNCHPAD:
             if (record->event.pressed) {
-                host_consumer_send(0x2A0);
+                host_consumer_send(_AC_SHOW_ALL_APPS);
             }
             return false;  // Skip all further processing of this key
+        
+        // print firmware version
+        case KC_VERSION:
+            if (!get_mods()) {
+                if (!record->event.pressed) {
+                    SEND_STRING(QMK_KEYBOARD ":" QMK_KEYMAP " (v" QMK_VERSION ") " __DATE__ " " __TIME__ );
+                }
+            }
+            return false;
+
         default:
             return true;   // Process all other keycodes normally
     }
