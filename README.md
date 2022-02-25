@@ -5,18 +5,16 @@
 A customizable 75% keyboard.
 
 * Keyboard Maintainer:
-  - [Vino Rodrigues](https://github.com/vinorodrigues)
-  - [Keychron](https://keychron.com)
+  - [Vino Rodrigues](https://github.com/vinorodrigues) *(this build)*
+  - [Keychron](https://keychron.com) *(original)*
 * Hardware Supported: Keychron Q1 Knob Version
 * Hardware Availability: [Keychron Q1](https://www.keychron.com/products/keychron-q1-qmk-custom-mechanical-keyboard-knob-version)
 
-> Please read the [setup instructions](docs/README.md) on the docs page to enable this build on your installation of QMK.
+> Please read the [setup instructions / README.md](docs/README.md) on the docs page to enable this build on your installation of QMK.
 
 Make example for this keyboard (after setting up your build environment):
 
     make custom/keychron_q1_r2:default
-
-> Please note that the `default` keymap will compile a VIA enabled firmware for the ANSI Knob version - there is no `via` keymap variant.
 
 Flashing example for this keyboard:
 

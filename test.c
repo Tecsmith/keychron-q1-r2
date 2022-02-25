@@ -167,14 +167,16 @@ void clear_eeprom(void) {
     layer_state_t default_layer_temp = default_layer_state;
     eeconfig_init();
     default_layer_set(default_layer_temp);
-#ifdef VIA_ENABLE
-    // This resets the layout options
-    via_set_layout_options(VIA_EEPROM_LAYOUT_OPTIONS_DEFAULT);
-    // This resets the keymaps in EEPROM to what is in flash.
-    dynamic_keymap_reset();
-    // This resets the macros in EEPROM to nothing.
-    dynamic_keymap_macro_reset();
-#endif
+
+    #ifdef VIA_ENABLE
+        // This resets the layout options
+        via_set_layout_options(VIA_EEPROM_LAYOUT_OPTIONS_DEFAULT);
+        // This resets the keymaps in EEPROM to what is in flash.
+        dynamic_keymap_reset();
+        // This resets the macros in EEPROM to nothing.
+        dynamic_keymap_macro_reset();
+    #endif
+
     rgb_matrix_enable_noeeprom();
     led_time_buffer  = timer_read();
     test_clear_blink = LED_BLINK;
@@ -182,16 +184,6 @@ void clear_eeprom(void) {
     rgb_matrix_sethsv_noeeprom(HSV_OFF);
 }
 
-#if   defined(KEYBOARD_keychron_q1_q1_ansi_atmega32u4)
-    // Do nothing here.
-#elif defined(KEYBOARD_keychron_q1_q1_ansi_atmega32u4_ec11)
-    // Do nothing here.
-#elif defined(KEYBOARD_keychron_q1_q1_iso_atmega32u4)
-    // Do nothing here.
-#elif defined(KEYBOARD_keychron_q1_q1_iso_atmega32u4_ec11)
-    // Do nothing here.
-#else
-    void restart_usb_driver(USBDriver *usbp) {
+void restart_usb_driver(USBDriver *usbp) {
     // Do nothing here
 }
-#endif
