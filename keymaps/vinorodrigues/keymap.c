@@ -19,7 +19,7 @@
 #include "keymap.h"
 
 #ifdef RGB_MATRIX_ENABLE
-#    include "rgb_matrix_keymap.h"
+    #include "rgb_matrix_keymap.h"
 #endif
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #ifdef RGB_MATRIX_ENABLE
 
     #ifdef CAPS_LOCK_LED_INDEX
-    #    undef CAPS_LOCK_LED_INDEX
+        #undef CAPS_LOCK_LED_INDEX
     #endif
 
     void matrix_init_user(void) {

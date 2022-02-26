@@ -65,7 +65,6 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         default:  // or rather non-default layer
             /* Transparent Keys Off */
             rgb_matrix_set_color_by_keycode(led_min, led_max, current_layer, is_transparent, RGB_OFF);
-
             break;
     }
 } 
@@ -76,14 +75,6 @@ void rgb_matrix_set_color_by_keycode(uint8_t led_min, uint8_t led_max, uint8_t l
         if ((*is_keycode)(keycode)) {
             rgb_matrix_set_color(i, red, green, blue);
         }
-        // #if defined MAC_LAYER_DEFAULT_COLOR && defined WIN_LAYER_DEFAULT_COLOR
-        // else {
-        //     if (layer == MAC_BASE)
-        //         rgb_matrix_set_color(i, MAC_LAYER_DEFAULT_COLOR);
-        //     else if (layer == WIN_BASE)
-        //         rgb_matrix_set_color(i, WIN_LAYER_DEFAULT_COLOR);
-        // }
-        // #endif
     }
 } 
 
